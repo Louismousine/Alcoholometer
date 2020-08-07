@@ -1,3 +1,4 @@
+import 'package:alcool_app/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -25,13 +26,6 @@ class _AddDrinkPopupState extends State<AddDrinkPopup> {
     _pourcentage.dispose();
 
     super.dispose();
-  }
-
-  String formatTimeOfDay(TimeOfDay tod) {
-    final now = new DateTime.now();
-    final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
-    final format = DateFormat.Hm();
-    return format.format(dt);
   }
 
   @override
@@ -72,7 +66,7 @@ class _AddDrinkPopupState extends State<AddDrinkPopup> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(formatTimeOfDay(_time)),
+                  Text(Helper.formatTimeOfDay(_time)),
                   IconButton(
                     icon: Icon(
                       Icons.arrow_forward_ios,
@@ -109,7 +103,7 @@ class _AddDrinkPopupState extends State<AddDrinkPopup> {
             final data = {
               'volume': double.parse(_volume.text),
               'pourcentage': double.parse(_pourcentage.text),
-              'time': formatTimeOfDay(_time),
+              'time': Helper.formatTimeOfDay(_time),
             };
             Navigator.of(context).pop(data);
           },

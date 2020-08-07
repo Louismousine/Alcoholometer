@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:alcool_app/main.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Helper {
   static double getPourcentage(String name) {
@@ -16,7 +18,13 @@ class Helper {
     // Tu peux jouer avec l'Array (entre autres delete les consommations qui sont trop loin dans le temps)
     // Pour avoir le current time, c'est TimeOfDay.now()
     // Je m'occuperai de set le current storage pour reflect les changements
-
     return 0.5;
+  }
+
+  static String formatTimeOfDay(TimeOfDay tod) {
+    final now = new DateTime.now();
+    final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
+    final format = DateFormat.Hm();
+    return format.format(dt);
   }
 }
