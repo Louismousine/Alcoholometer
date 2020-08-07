@@ -26,6 +26,7 @@ dependencies:
   liquid_progress_indicator: ^0.3.2
   shared_preferences: ^0.5.8
   animated_background: ^1.0.5
+  intl: ^0.16.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

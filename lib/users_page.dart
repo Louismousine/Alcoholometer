@@ -102,6 +102,7 @@ class _UsersPageState extends State<UsersPage> {
           'weight': newUser['weight'],
           'height': newUser['height'],
           'isFemale': newUser['isFemale'],
+          'drinks': []
         },
       );
       prefs.setString(newUser['name'], userData);

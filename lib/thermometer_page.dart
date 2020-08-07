@@ -1,3 +1,8 @@
+import 'dart:convert';
+
+import 'package:alcool_app/add_drink_popup.dart';
+import 'package:alcool_app/helper.dart';
+import 'package:alcool_app/main.dart';
 import 'package:animated_background/animated_background.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
@@ -27,8 +32,18 @@ class _ThermometerPageState extends State<ThermometerPage>
         iconTheme: IconThemeData(
           color: Colors.pink,
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.add,
+            ),
+            onPressed: () {
+              addDrink(context);
+            },
+          ),
+        ],
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -68,7 +83,7 @@ class _ThermometerPageState extends State<ThermometerPage>
               width: MediaQuery.of(context).size.width / 3,
               height: MediaQuery.of(context).size.height / 1.5,
               child: LiquidLinearProgressIndicator(
-                value: 0.5,
+                value: Helper.getPourcentage(name),
                 valueColor: AlwaysStoppedAnimation(
                   Colors.pink,
                 ),
@@ -104,5 +119,28 @@ class _ThermometerPageState extends State<ThermometerPage>
         ),
       ),
     );
+  }
+
+  void addDrink(BuildContext ctx) async {
+    final newDrink = await showDialog(
+      context: ctx,
+      builder: (ctx) {
+        return AddDrinkPopup();
+      },
+    );
+
+    if (newDrink != null) {
+      final user =
+          ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+      final name = user['name'];
+      final userData = json.decode(prefs.get(name)) as Map<String, dynamic>;
+
+      List<dynamic> drinks = userData['drinks'];
+      drinks.add(newDrink);
+      userData['drinks'] = drinks;
+      prefs.setString(name, json.encode(userData));
+
+      setState(() {});
+    }
   }
 }
