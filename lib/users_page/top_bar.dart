@@ -1,3 +1,4 @@
+import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
 
 class TopBar extends StatelessWidget {
@@ -6,6 +7,24 @@ class TopBar extends StatelessWidget {
     return CustomPaint(
       child: Container(
         height: MediaQuery.of(context).size.height / 2.5,
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 10,
+            ),
+            BorderedText(
+              child: Text(
+                'Alcoholometer',
+                style: TextStyle(
+                    fontSize: 50, fontFamily: 'Rockwell', color: Colors.white),
+              ),
+              strokeWidth: 6,
+              strokeColor: Colors.black,
+            ),
+          ],
+        ),
       ),
       painter: CurvePainter(),
     );
@@ -19,7 +38,7 @@ class CurvePainter extends CustomPainter {
     Paint paint = Paint();
     Color colorOne = Color(0xFF6B75D6);
     Color colorTwo = Color(0xDD99A2FF);
-    Color colorThree =  Color(0x6699A2FF);
+    Color colorThree = Color(0x6699A2FF);
 
     path.lineTo(0, size.height * 0.75);
     path.quadraticBezierTo(size.width * 0.10, size.height * 0.70,
