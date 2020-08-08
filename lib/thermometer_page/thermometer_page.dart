@@ -134,6 +134,8 @@ class _ThermometerPageState extends State<ThermometerPage>
                                           user.id,
                                           user.drinks[index],
                                         );
+                                        setState(() {});
+                                        Navigator.of(context).pop(true);
                                       },
                                     ),
                                   ),

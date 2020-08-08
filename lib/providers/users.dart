@@ -109,6 +109,7 @@ class Users with ChangeNotifier {
     final userData = json.decode(prefs.get(id)) as Map<String, dynamic>;
 
     List<dynamic> drinks = userData['drinks'];
+    print(drinks[0]['id']);
     drinks.removeWhere((d) => d['id'] == drink.id);
 
     userData['drinks'] = drinks;
