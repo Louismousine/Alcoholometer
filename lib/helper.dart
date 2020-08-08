@@ -3,8 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Helper {
+
   static const double ALCOHOL_DENSITY = 0.789;
   static const double BAC_REDUCTION = 0.015;
+  static const OFFSET = 0.29;
+  static const TOP_VALUE = 0.21;
+  static const firstScalePercentage = OFFSET + 0.02 * (1 - OFFSET) / TOP_VALUE;
+  static const secondScalePercentage = OFFSET + 0.05 * (1 - OFFSET) / TOP_VALUE;
+  static const thirdScalePercentage = OFFSET + 0.08 * (1 - OFFSET) / TOP_VALUE;
+  static const fourthScalePercentage = OFFSET + 0.12 * (1 - OFFSET) / TOP_VALUE;
+  static const fifthScalePercentage = OFFSET + 0.15 * (1 - OFFSET) / TOP_VALUE;
+
   static double getPourcentage(User user) {
     var totalAlcoholIngested = 0.0;
     final now = new DateTime.now();
@@ -46,9 +55,26 @@ class Helper {
   }
 
   static double percentageToDisplayOnThermometer(double bac){
-    const OFFSET = 0.29;
-    const TOP_VALUE = 0.21;
     return OFFSET + bac * (1 - OFFSET) / TOP_VALUE;
+  }
+
+  static String hexColorForPercentage(double percentage){
+    if(percentage < firstScalePercentage){
+      return Color(0xFF868A46);
+    }
+    if(percentage < secondScalePercentage){
+      return Color(0xFF997E44);
+    }
+    if(percentage < thirdScalePercentage){
+      return Color(0xFFAC7242);
+    }
+    if(percentage < fourthScalePercentage){
+      return Color(0xFFC0653D);
+    }
+    if(percentage < fifthScalePercentage){
+      return Color(0xFFD3593B);
+    }
+    return Color(0xFFEC4838);
   }
 
   static String formatTimeOfDay(TimeOfDay tod) {
