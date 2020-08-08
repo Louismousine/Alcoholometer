@@ -45,6 +45,12 @@ class Helper {
     );
   }
 
+  static double percentageToDisplayOnThermometer(double bac){
+    const OFFSET = 0.2;
+    const TOP_VALUE = 0.22;
+    return 0.2 + bac * 100 / TOP_VALUE;
+  }
+
   static String formatTimeOfDay(TimeOfDay tod) {
     final now = new DateTime.now();
     final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
