@@ -1,5 +1,5 @@
 import 'package:alcool_app/providers/users.dart';
-import 'package:alcool_app/top_bar.dart';
+import 'package:alcool_app/users_page/top_bar.dart';
 import 'package:alcool_app/users_page/user_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:alcool_app/add_user_popup.dart';
