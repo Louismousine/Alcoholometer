@@ -35,7 +35,7 @@ class Helper {
         : 0.3669 * height * height * height + 0.03219 * weight + 0.6041;
     var timeDiff = now.difference(firstTimeAtWhichDrinkWasTaken);
     var alcoholRemovedByLiver = timeDiff.inHours * BAC_REDUCTION +
-        timeDiff.inMinutes * BAC_REDUCTION / 60;
+        timeDiff.inMinutes * BAC_REDUCTION / 60.0;
     var bac =
         totalAlcoholIngested / (bloodVolume * 100) - alcoholRemovedByLiver;
     if (bac <= 0) {
@@ -91,7 +91,7 @@ class Helper {
   static String timeUntilSober(double bac) {
     int hours = (bac / BAC_REDUCTION).round();
     double bacLeft = bac % BAC_REDUCTION;
-    int minutes = (bacLeft / (BAC_REDUCTION / 60)).round();
+    int minutes = (bacLeft / (BAC_REDUCTION / 60.0)).round();
     var now = new DateTime.now();
     now = now.add(new Duration(hours: hours, minutes: minutes));
     return now.hour.toString() + ':' + now.minute.toString();

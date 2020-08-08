@@ -88,15 +88,8 @@ class _ThermometerPageState extends State<ThermometerPage>
           color: Colors.pink,
         ),
         title: Text(
-          user.name +
-              ' sober around ' +
-              Helper.timeUntilSober(
-                Helper.getPourcentage(user),
-              ),
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 18
-          ),
+          user.name,
+          style: TextStyle(color: Colors.black, fontSize: 23),
         ),
         actions: <Widget>[
           IconButton(
@@ -158,17 +151,32 @@ class _ThermometerPageState extends State<ThermometerPage>
           ),
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height / 20,
-          bottom: MediaQuery.of(context).size.height / 15,
-        ),
-        child: Stack(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Stack(
+      body: Stack(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(top: 20),
+            alignment: Alignment.topCenter,
+            child: Text(
+              'Will be sober around ' +
+                  Helper.timeUntilSober(
+                    Helper.getPourcentage(user),
+                  ),
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                decoration: TextDecoration.underline
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height / 20,
+                  bottom: MediaQuery.of(context).size.height / 15,
+                ),
+                child: Stack(
                   children: <Widget>[
                     LiquidCustomProgressIndicator(
                       value: 0.0,
@@ -233,11 +241,11 @@ class _ThermometerPageState extends State<ThermometerPage>
                     ),
                   ],
                 ),
-              ],
-            ),
-            ThermometerScale(),
-          ],
-        ),
+              ),
+            ],
+          ),
+          ThermometerScale(),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(

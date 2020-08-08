@@ -66,7 +66,7 @@ class ThermometerScale extends StatelessWidget {
         left: MediaQuery.of(context).size.width / 1.75,
       ),
       child: Container(
-        height: MediaQuery.of(context).size.height / 1.83,
+        height: MediaQuery.of(context).size.height / 1.65,
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
