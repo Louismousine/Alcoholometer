@@ -157,15 +157,13 @@ class _ThermometerPageState extends State<ThermometerPage>
             padding: EdgeInsets.only(top: 20),
             alignment: Alignment.topCenter,
             child: Text(
-              'Will be sober around ' +
-                  Helper.timeUntilSober(
-                    Helper.getPourcentage(user),
-                  ),
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                decoration: TextDecoration.underline
+              Helper.timeUntilSober(
+                Helper.getPourcentage(user),
               ),
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  decoration: TextDecoration.underline),
             ),
           ),
           Row(

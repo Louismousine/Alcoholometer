@@ -89,12 +89,15 @@ class Helper {
   }
 
   static String timeUntilSober(double bac) {
+    if(bac == 0.0) {
+      return '';
+    }
     int hours = (bac / BAC_REDUCTION).round();
     double bacLeft = bac % BAC_REDUCTION;
     int minutes = (bacLeft / (BAC_REDUCTION / 60.0)).round();
     var now = new DateTime.now();
     now = now.add(new Duration(hours: hours, minutes: minutes));
-    return now.hour.toString() + ':' + now.minute.toString();
+    return 'Will be sober around ' + now.hour.toString() + ':' + now.minute.toString();
   }
 
   static String formatTimeOfDay(TimeOfDay tod) {
