@@ -1,5 +1,6 @@
 import 'package:alcool_app/thermometer_page/wave.dart';
 import 'package:flutter/material.dart';
+import 'package:alcool_app/helper.dart';
 
 class LiquidCustomProgressIndicator extends ProgressIndicator {
   ///The widget to show in the center of the progress indicator.
@@ -11,6 +12,8 @@ class LiquidCustomProgressIndicator extends ProgressIndicator {
   ///The path used to draw the shape of the progress indicator. The size of the progress indicator is controlled by the bounds of this path.
   final Path shapePath;
 
+  final bool isBlack;
+
   LiquidCustomProgressIndicator({
     Key key,
     double value = 0.5,
@@ -19,6 +22,7 @@ class LiquidCustomProgressIndicator extends ProgressIndicator {
     this.center,
     @required this.direction,
     @required this.shapePath,
+    @required this.isBlack,
   }) : super(
           key: key,
           value: value,
@@ -28,9 +32,6 @@ class LiquidCustomProgressIndicator extends ProgressIndicator {
 
   Color _getBackgroundColor(BuildContext context) =>
       backgroundColor ?? Theme.of(context).backgroundColor;
-
-  Color _getValueColor(BuildContext context) =>
-      valueColor?.value ?? Theme.of(context).accentColor;
 
   @override
   State<StatefulWidget> createState() => _LiquidCustomProgressIndicatorState();
@@ -60,7 +61,12 @@ class _LiquidCustomProgressIndicatorState
                 top: pathBounds.top,
                 child: Wave(
                   value: widget.value,
-                  color: widget._getValueColor(context),
+                  colors: widget.isBlack
+                      ? [Colors.black, Colors.black]
+                      : [
+                          Colors.green,
+                          Helper.hexColorForPercentage(widget.value)
+                        ],
                   direction: widget.direction,
                 ),
               ),

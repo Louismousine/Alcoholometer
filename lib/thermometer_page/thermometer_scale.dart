@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:alcool_app/bac_explanation.dart';
 
 class ThermometerScale extends StatelessWidget {
-  Widget buildScaleBar({double scaleWidth, double scaleHeight, String value}) {
+  String getSideEffectsList(List<String> list) {
+    String acc = '';
+    list.forEach((effect) {
+      acc += '\n• ' + effect + '\n';
+    });
+    return acc;
+  }
+
+  Widget buildScaleBar(
+      {BuildContext context,
+      double scaleWidth,
+      double scaleHeight,
+      String value}) {
     return Row(
       children: <Widget>[
         Container(
@@ -18,7 +31,24 @@ class ThermometerScale extends StatelessWidget {
         ),
         IconButton(
           icon: Icon(Icons.more_horiz),
-          onPressed: () {},
+          onPressed: () {
+            return showDialog(
+              context: context,
+              builder: (_) {
+                return AlertDialog(
+                  title: Text(
+                    'Side effects when reaching $value g/mL',
+                    textAlign: TextAlign.center,
+                  ),
+                  content: Text(
+                    getSideEffectsList(
+                      BacExplanation.getBacExplanations(value),
+                    ),
+                  ),
+                );
+              },
+            );
+          },
           color: Colors.pink,
         ),
       ],
@@ -42,6 +72,7 @@ class ThermometerScale extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             buildScaleBar(
+              context: context,
               scaleWidth: scaleWidth,
               scaleHeight: scaleHeight,
               value: '0.20',
@@ -50,6 +81,7 @@ class ThermometerScale extends StatelessWidget {
               height: 5 * scaleUnit,
             ),
             buildScaleBar(
+              context: context,
               scaleWidth: scaleWidth,
               scaleHeight: scaleHeight,
               value: '0.15',
@@ -58,6 +90,7 @@ class ThermometerScale extends StatelessWidget {
               height: 3 * scaleUnit,
             ),
             buildScaleBar(
+              context: context,
               scaleWidth: scaleWidth,
               scaleHeight: scaleHeight,
               value: '0.12',
@@ -66,6 +99,7 @@ class ThermometerScale extends StatelessWidget {
               height: 4 * scaleUnit,
             ),
             buildScaleBar(
+              context: context,
               scaleWidth: scaleWidth,
               scaleHeight: scaleHeight,
               value: '0.08',
@@ -74,6 +108,7 @@ class ThermometerScale extends StatelessWidget {
               height: 3 * scaleUnit,
             ),
             buildScaleBar(
+              context: context,
               scaleWidth: scaleWidth,
               scaleHeight: scaleHeight,
               value: '0.05',
@@ -82,6 +117,7 @@ class ThermometerScale extends StatelessWidget {
               height: 3 * scaleUnit,
             ),
             buildScaleBar(
+              context: context,
               scaleWidth: scaleWidth,
               scaleHeight: scaleHeight,
               value: '0.02',

@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 
 class Wave extends StatefulWidget {
   final double value;
-  final Color color;
+  final List<Color> colors;
   final Axis direction;
 
   const Wave({
     Key key,
     @required this.value,
-    @required this.color,
+    @required this.colors,
     @required this.direction,
   }) : super(key: key);
 
@@ -47,7 +47,12 @@ class _WaveState extends State<Wave> with SingleTickerProviderStateMixin {
       ),
       builder: (context, child) => ClipPath(
         child: Container(
-          color: widget.color,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            colors: widget.colors,
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+          )),
         ),
         clipper: _WaveClipper(
           animationValue: _animationController.value,
