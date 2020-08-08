@@ -20,10 +20,10 @@ class Helper {
       }
     });
     var bloodVolume = user.isFemale
-        ? 0.3561 * user.height * user.height * user.height +
+        ? 0.3561 * user.height * user.height * user.height / 1000000 +
             0.03308 * user.weight * 0.453592 +
             0.1833
-        : 0.3669 * user.height * user.height * user.height +
+        : 0.3669 * user.height * user.height * user.height / 1000000 +
             0.03219 * 0.453592 * user.weight +
             0.6041;
     var timeDiff = now.difference(firstTimeAtWhichDrinkWasTaken);
@@ -34,7 +34,8 @@ class Helper {
       invalidatePastDrinks(user);
       return 0;
     }
-    return bac;
+    var bacTruncated = ((bac * 100) % 100) / 100;
+    return bacTruncated;
   }
 
   static void invalidatePastDrinks(User user) {
@@ -47,7 +48,7 @@ class Helper {
 
   static double percentageToDisplayOnThermometer(double bac){
     const OFFSET = 0.29;
-    const TOP_VALUE = 0.22;
+    const TOP_VALUE = 0.21;
     return OFFSET + bac * (1 - OFFSET) / TOP_VALUE;
   }
 
