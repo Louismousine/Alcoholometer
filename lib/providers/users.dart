@@ -96,6 +96,7 @@ class Users with ChangeNotifier {
       'volume': drink.volume,
       'pourcentage': drink.pourcentage,
       'time': drink.time.toString(),
+      'valid': drink.valid,
     });
     userData['drinks'] = drinks;
     prefs.setString(id, json.encode(userData));
@@ -110,6 +111,7 @@ class Users with ChangeNotifier {
           volume: drink['volume'],
           pourcentage: drink['pourcentage'],
           time: DateTime.parse(drink['time']),
+          valid: drink['valid'],
         ),
       );
     });

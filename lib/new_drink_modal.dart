@@ -29,6 +29,7 @@ class _NewDrinkModalState extends State<NewDrinkModal> {
         pourcentage: enteredPourcentage,
         volume: enteredVolume,
         time: enteredTime,
+        valid: true,
       ),
     );
   }
