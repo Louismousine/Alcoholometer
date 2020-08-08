@@ -56,6 +56,12 @@ class Users with ChangeNotifier {
     prefs.setString(id, userData);
   }
 
+  void deleteUser({String id}) {
+    _users.removeWhere((u) => u.id == id);
+    prefs.remove(id);
+    notifyListeners();
+  }
+
   void addDrinkToUser(String id, Drink drink) {
     _users.firstWhere((user) => user.id == id).drinks.add(drink);
     notifyListeners();
