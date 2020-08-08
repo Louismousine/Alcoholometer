@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:alcool_app/providers/users.dart';
-import 'package:alcool_app/users_page.dart';
+import 'package:alcool_app/users_page/users_page.dart';
 import 'package:alcool_app/thermometer_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -94,6 +94,9 @@ class MyApp extends StatelessWidget {
         routes: {
           ThermometerPage.routeName: (ctx) => ThermometerPage(),
         },
+        theme: ThemeData(
+          primaryColor: Color(0xFF6B75D6),
+        ),
       ),
     );
   }

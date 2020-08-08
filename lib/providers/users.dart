@@ -56,6 +56,34 @@ class Users with ChangeNotifier {
     prefs.setString(id, userData);
   }
 
+  void deleteUser({String id}) {
+    _users.removeWhere((u) => u.id == id);
+    prefs.remove(id);
+    notifyListeners();
+  }
+
+  void editUser(
+      {String id, String name, double weight, double height, bool isFemale}) {
+    final user = _users.firstWhere((user) => user.id == id);
+    user.name = name;
+    user.weight = weight;
+    user.height = height;
+    user.isFemale = isFemale;
+    notifyListeners();
+
+    final userData = json.encode(
+      {
+        'name': name,
+        'weight': weight,
+        'height': height,
+        'isFemale': isFemale,
+        'drinks':
+            ((json.decode(prefs.get(id)) as Map<String, dynamic>)['drinks'])
+      },
+    );
+    prefs.setString(id, userData);
+  }
+
   void addDrinkToUser(String id, Drink drink) {
     _users.firstWhere((user) => user.id == id).drinks.add(drink);
     notifyListeners();
