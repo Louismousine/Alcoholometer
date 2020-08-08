@@ -103,8 +103,8 @@ class _AddUserPopupState extends State<AddUserPopup> {
           onPressed: () {
             final data = {
               'name': _name.text,
-              'weight': int.parse(_weight.text),
-              'height': int.parse(_height.text),
+              'weight': double.parse(_weight.text),
+              'height': double.parse(_height.text),
               'isFemale': _isFemale
             };
             Navigator.of(context).pop(data);

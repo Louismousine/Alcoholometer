@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:alcool_app/providers/users.dart';
 import 'package:alcool_app/users_page.dart';
 import 'package:alcool_app/thermometer_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences prefs;
@@ -12,33 +14,68 @@ Future<void> main() async {
   prefs = await SharedPreferences.getInstance();
   prefs.clear();
   prefs.setString(
-      'William',
-      json.encode(
-          {'weight': 120, 'height': 167, 'isFemale': false, 'drinks': []}));
+      '1',
+      json.encode({
+        'name': 'William',
+        'weight': 120.0,
+        'height': 167.0,
+        'isFemale': false,
+        'drinks': []
+      }));
   prefs.setString(
-      'Louis',
-      json.encode(
-          {'weight': 140, 'height': 190, 'isFemale': false, 'drinks': []}));
+      '2',
+      json.encode({
+        'name': 'Louis',
+        'weight': 140.0,
+        'height': 190.0,
+        'isFemale': false,
+        'drinks': []
+      }));
   prefs.setString(
-      'Jé Mark',
-      json.encode(
-          {'weight': 160, 'height': 170, 'isFemale': false, 'drinks': []}));
+      '3',
+      json.encode({
+        'name': 'Jé Mark',
+        'weight': 160.0,
+        'height': 170.0,
+        'isFemale': false,
+        'drinks': []
+      }));
   prefs.setString(
-      'Mich',
-      json.encode(
-          {'weight': 160, 'height': 170, 'isFemale': false, 'drinks': []}));
+      '4',
+      json.encode({
+        'name': 'Mich',
+        'weight': 160.0,
+        'height': 170.0,
+        'isFemale': false,
+        'drinks': []
+      }));
   prefs.setString(
-      'Isaac',
-      json.encode(
-          {'weight': 180, 'height': 190, 'isFemale': false, 'drinks': []}));
+      '5',
+      json.encode({
+        'name': 'Isaac',
+        'weight': 180.0,
+        'height': 190.0,
+        'isFemale': false,
+        'drinks': []
+      }));
   prefs.setString(
-      'Jed',
-      json.encode(
-          {'weight': 150, 'height': 170, 'isFemale': false, 'drinks': []}));
+      '6',
+      json.encode({
+        'name': 'Jed',
+        'weight': 150.0,
+        'height': 170.0,
+        'isFemale': false,
+        'drinks': []
+      }));
   prefs.setString(
-      'Clarissa',
-      json.encode(
-          {'weight': 120, 'height': 160, 'isFemale': true, 'drinks': []}));
+      '7',
+      json.encode({
+        'name': 'Clarissa',
+        'weight': 120.0,
+        'height': 160.0,
+        'isFemale': true,
+        'drinks': []
+      }));
 
   runApp(MyApp());
 }
@@ -46,11 +83,18 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: UsersPage(),
-      routes: {
-        ThermometerPage.routeName: (ctx) => ThermometerPage(),
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+          value: Users(),
+        ),
+      ],
+      child: MaterialApp(
+        home: UsersPage(),
+        routes: {
+          ThermometerPage.routeName: (ctx) => ThermometerPage(),
+        },
+      ),
     );
   }
 }

@@ -1,11 +1,12 @@
-import 'dart:convert';
-
-import 'package:alcool_app/add_drink_popup.dart';
 import 'package:alcool_app/helper.dart';
-import 'package:alcool_app/main.dart';
+import 'package:alcool_app/model/drink.dart';
+import 'package:alcool_app/model/user.dart';
+import 'package:alcool_app/new_drink_modal.dart';
+import 'package:alcool_app/providers/users.dart';
 import 'package:animated_background/animated_background.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:provider/provider.dart';
 
 class ThermometerPage extends StatefulWidget {
   static const routeName = '/thermometer';
@@ -16,14 +17,46 @@ class ThermometerPage extends StatefulWidget {
 
 class _ThermometerPageState extends State<ThermometerPage>
     with TickerProviderStateMixin {
+  TextEditingController _volume;
+  TextEditingController _pourcentage;
+
+  @override
+  void initState() {
+    _volume = TextEditingController();
+    _pourcentage = TextEditingController();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _volume.dispose();
+    _pourcentage.dispose();
+
+    super.dispose();
+  }
+
+  void _addNewDrink(BuildContext context) async {
+    final newDrink = await showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          child: NewDrinkModal(),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    ) as Drink;
+
+    Provider.of<Users>(context, listen: false).addDrinkToUser(
+      (ModalRoute.of(context).settings.arguments as User).id,
+      newDrink,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final user =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-    final name = user['name'];
-    final weight = user['weight'];
-    final height = user['height'];
-    final isFemale = user['isFemale'];
+    final user = ModalRoute.of(context).settings.arguments as User;
 
     return Scaffold(
       appBar: AppBar(
@@ -32,115 +65,76 @@ class _ThermometerPageState extends State<ThermometerPage>
         iconTheme: IconThemeData(
           color: Colors.pink,
         ),
+        title: Text(
+          user.name,
+          style: TextStyle(color: Colors.black),
+        ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(
-              Icons.add,
-            ),
+            icon: Icon(Icons.history),
             onPressed: () {
-              addDrink(context);
+              // Add history popup here
             },
-          ),
+          )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+      body: Padding(
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height / 30,
+          bottom: MediaQuery.of(context).size.height / 15,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              name,
-              style: TextStyle(fontSize: 40),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                isFemale
-                    ? Text(
-                        'Female',
-                        style: TextStyle(fontSize: 20),
-                      )
-                    : Text(
-                        'Male',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                Text(
-                  weight.toString() + ' lbs',
-                  style: TextStyle(fontSize: 20),
-                ),
-                Text(
-                  height.toString() + ' cm',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width / 3,
-              height: MediaQuery.of(context).size.height / 1.5,
-              child: LiquidLinearProgressIndicator(
-                value: Helper.getPourcentage(name),
-                valueColor: AlwaysStoppedAnimation(
-                  Colors.pink,
-                ),
-                backgroundColor: Colors.white,
-                borderColor: Colors.red,
-                borderWidth: 5.0,
-                borderRadius: 12.0,
-                direction: Axis.vertical,
-                center: Stack(
-                  children: <Widget>[
-                    AnimatedBackground(
-                      behaviour: RandomParticleBehaviour(
-                        options: ParticleOptions(
-                          baseColor: Colors.white,
-                          spawnMaxSpeed: 50,
-                          spawnMinSpeed: 30,
-                          particleCount: 20,
-                        ),
-                      ),
-                      vsync: this,
-                      child: Center(),
-                    ),
-                    Center(
-                      child: Text(
-                        'CURRENT VALUE',
-                      ),
-                    )
-                  ],
-                ),
+            LiquidCustomProgressIndicator(
+              value: Helper.getPourcentage(user),
+              valueColor: AlwaysStoppedAnimation(
+                Colors.pink,
               ),
+              backgroundColor: Colors.white,
+              direction: Axis.vertical,
+              center: Stack(
+                children: <Widget>[
+                  AnimatedBackground(
+                    behaviour: RandomParticleBehaviour(
+                      options: ParticleOptions(
+                        baseColor: Colors.white,
+                        spawnMaxSpeed: 50,
+                        spawnMinSpeed: 30,
+                        particleCount: 20,
+                      ),
+                    ),
+                    vsync: this,
+                    child: Center(),
+                  ),
+                  Center(
+                    child: Text(
+                      'CURRENT VALUE',
+                    ),
+                  )
+                ],
+              ),
+              shapePath: _buildThermometerPath(MediaQuery.of(context).size),
             ),
           ],
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        backgroundColor: Colors.pink,
+        onPressed: () => _addNewDrink(context),
+      ),
     );
   }
 
-  void addDrink(BuildContext ctx) async {
-    final newDrink = await showDialog(
-      context: ctx,
-      builder: (ctx) {
-        return AddDrinkPopup();
-      },
-    );
-
-    if (newDrink != null) {
-      final user =
-          ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-      final name = user['name'];
-      final userData = json.decode(prefs.get(name)) as Map<String, dynamic>;
-
-      List<dynamic> drinks = userData['drinks'];
-      drinks.add(newDrink);
-      userData['drinks'] = drinks;
-      prefs.setString(name, json.encode(userData));
-
-      setState(() {});
-    }
+  Path _buildThermometerPath(size) {
+    // Here goes the path
+    var path = Path();
+    path.lineTo(0,30);
+    path.lineTo(15,30);
+    path.lineTo(0, 50);
+    path.close();
+    return path;
   }
 }
