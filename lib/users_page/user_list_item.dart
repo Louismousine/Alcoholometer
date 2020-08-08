@@ -6,8 +6,9 @@ import 'package:provider/provider.dart';
 
 class UserListItem extends StatelessWidget {
   final User user;
+  final Function editUser;
 
-  UserListItem(this.user);
+  UserListItem(this.user, this.editUser);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,6 @@ class UserListItem extends StatelessWidget {
               title: Text(
                 'Are you sure you want to delete this user ?',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.subtitle1,
               ),
               actions: <Widget>[
                 FlatButton(
@@ -64,7 +64,9 @@ class UserListItem extends StatelessWidget {
                   },
                   child: Text(
                     'Yes',
-                    style: TextStyle(color: Theme.of(context).primaryColor),
+                    style: TextStyle(
+                      color: Colors.pink,
+                    ),
                   ),
                 ),
               ],
@@ -73,8 +75,7 @@ class UserListItem extends StatelessWidget {
         );
       },
       onDismissed: (direction) {
-        Provider.of<Users>(context, listen: false)
-            .deleteUser(id: user.id);
+        Provider.of<Users>(context, listen: false).deleteUser(id: user.id);
         Scaffold.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -86,7 +87,10 @@ class UserListItem extends StatelessWidget {
         );
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 5,
+        ),
         child: Card(
           shape: RoundedRectangleBorder(
             side: BorderSide(
@@ -105,9 +109,11 @@ class UserListItem extends StatelessWidget {
             },
             title: Text(user.name),
             trailing: IconButton(
-              icon: Icon(Icons.edit),
-              color: Theme.of(context).primaryColor,
-              onPressed: () {},
+              icon: Icon(
+                Icons.edit,
+              ),
+              color: Colors.pink,
+              onPressed: () => editUser(context, user),
             ),
           ),
         ),

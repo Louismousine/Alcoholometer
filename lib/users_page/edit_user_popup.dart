@@ -1,21 +1,27 @@
+import 'package:alcool_app/model/user.dart';
 import 'package:flutter/material.dart';
 
-class AddUserPopup extends StatefulWidget {
+class EditUserPopup extends StatefulWidget {
+  final User user;
+
+  EditUserPopup(this.user);
+
   @override
-  _AddUserPopupState createState() => _AddUserPopupState();
+  _EditUserPopupState createState() => _EditUserPopupState();
 }
 
-class _AddUserPopupState extends State<AddUserPopup> {
+class _EditUserPopupState extends State<EditUserPopup> {
   TextEditingController _name;
   TextEditingController _weight;
   TextEditingController _height;
-  bool _isFemale = false;
+  bool _isFemale;
 
   @override
   void initState() {
-    _name = TextEditingController();
-    _weight = TextEditingController();
-    _height = TextEditingController();
+    _name = TextEditingController(text: widget.user.name);
+    _weight = TextEditingController(text: widget.user.weight.toString());
+    _height = TextEditingController(text: widget.user.height.toString());
+    _isFemale = widget.user.isFemale;
 
     super.initState();
   }
@@ -33,7 +39,10 @@ class _AddUserPopupState extends State<AddUserPopup> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Center(
-        child: Text('Add a new user'),
+        child: Text('Edit ${widget.user.name}'),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
       ),
       content: Container(
         height: MediaQuery.of(context).size.height / 4,
@@ -110,7 +119,7 @@ class _AddUserPopupState extends State<AddUserPopup> {
             Navigator.of(context).pop(data);
           },
           child: Text(
-            'Add user',
+            'Edit',
             style: TextStyle(
               color: Colors.pink,
             ),
