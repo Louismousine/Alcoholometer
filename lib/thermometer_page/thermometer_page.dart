@@ -4,6 +4,7 @@ import 'package:alcool_app/model/user.dart';
 import 'package:alcool_app/new_drink_modal.dart';
 import 'package:alcool_app/providers/users.dart';
 import 'package:animated_background/animated_background.dart';
+import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -118,7 +119,21 @@ class _ThermometerPageState extends State<ThermometerPage>
                           ),
                         ),
                         vsync: this,
-                        child: Center(child: Text('hey')),
+                        child: Container(
+                          child: BorderedText(
+                            strokeWidth: 3.0,
+                            strokeColor: Colors.black,
+                            child: Text(
+                              Helper.getPourcentage(user).toString(),
+                              style: TextStyle(
+                                fontSize: 70,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          alignment: Alignment.bottomCenter,
+                          padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 15),
+                        ),
                       ),
                     ],
                   ),
