@@ -20,25 +20,6 @@ class ThermometerPage extends StatefulWidget {
 
 class _ThermometerPageState extends State<ThermometerPage>
     with TickerProviderStateMixin {
-  TextEditingController _volume;
-  TextEditingController _pourcentage;
-
-  @override
-  void initState() {
-    _volume = TextEditingController();
-    _pourcentage = TextEditingController();
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _volume.dispose();
-    _pourcentage.dispose();
-
-    super.dispose();
-  }
-
   void _addNewDrink(BuildContext context) async {
     final newDrink = await showModalBottomSheet(
       context: context,
@@ -100,6 +81,7 @@ class _ThermometerPageState extends State<ThermometerPage>
                       valueColor: AlwaysStoppedAnimation(
                         Colors.black,
                       ),
+                      isBlack: true,
                       backgroundColor: Colors.black,
                       direction: Axis.vertical,
                       shapePath:
@@ -111,6 +93,7 @@ class _ThermometerPageState extends State<ThermometerPage>
                       valueColor: AlwaysStoppedAnimation(
                         Colors.pink,
                       ),
+                      isBlack: false,
                       backgroundColor: Colors.white,
                       direction: Axis.vertical,
                       center: Stack(

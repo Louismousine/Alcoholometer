@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Helper {
-
   static const double ALCOHOL_DENSITY = 0.789;
   static const double BAC_REDUCTION = 0.015;
   static const OFFSET = 0.29;
@@ -54,24 +53,24 @@ class Helper {
     );
   }
 
-  static double percentageToDisplayOnThermometer(double bac){
+  static double percentageToDisplayOnThermometer(double bac) {
     return OFFSET + bac * (1 - OFFSET) / TOP_VALUE;
   }
 
-  static String hexColorForPercentage(double percentage){
-    if(percentage < firstScalePercentage){
+  static Color hexColorForPercentage(double percentage) {
+    if (percentage < firstScalePercentage) {
       return Color(0xFF868A46);
     }
-    if(percentage < secondScalePercentage){
+    if (percentage < secondScalePercentage) {
       return Color(0xFF997E44);
     }
-    if(percentage < thirdScalePercentage){
+    if (percentage < thirdScalePercentage) {
       return Color(0xFFAC7242);
     }
-    if(percentage < fourthScalePercentage){
+    if (percentage < fourthScalePercentage) {
       return Color(0xFFC0653D);
     }
-    if(percentage < fifthScalePercentage){
+    if (percentage < fifthScalePercentage) {
       return Color(0xFFD3593B);
     }
     return Color(0xFFEC4838);
