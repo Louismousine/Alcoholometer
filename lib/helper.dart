@@ -29,7 +29,7 @@ class Helper {
     var timeDiff = now.difference(firstTimeAtWhichDrinkWasTaken);
     var alcoholRemovedByLiver = timeDiff.inHours * BAC_REDUCTION +
         timeDiff.inMinutes * BAC_REDUCTION / 60;
-    var bac = totalAlcoholIngested / (bloodVolume / 10) - alcoholRemovedByLiver;
+    var bac = totalAlcoholIngested / (bloodVolume * 100) - alcoholRemovedByLiver;
     if (bac <= 0) {
       invalidatePastDrinks(user);
       return 0;
