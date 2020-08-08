@@ -77,6 +77,17 @@ class Helper {
     return Color(0xFFEC4838);
   }
 
+  static double alcoholIntakeLastWeek(User user) {
+    final now = new DateTime.now();
+    final weekAgo = now.subtract(new Duration(days: 7));
+    double intake = 0;
+    user.drinks.forEach((drink) {
+      if (drink.time.isAfter(weekAgo)) {
+        intake += drink.pourcentage / 100 * drink.volume * ALCOHOL_DENSITY;
+      }
+    });
+    return intake;
+  }
   static String formatTimeOfDay(TimeOfDay tod) {
     final now = new DateTime.now();
     final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
