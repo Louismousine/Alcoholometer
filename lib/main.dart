@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:alcool_app/providers/users.dart';
 import 'package:alcool_app/users_page/users_page.dart';
-import 'package:alcool_app/thermometer_page.dart';
+import 'package:alcool_app/thermometer_page/thermometer_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -1,6 +1,6 @@
 import 'package:alcool_app/model/user.dart';
 import 'package:alcool_app/providers/users.dart';
-import 'package:alcool_app/thermometer_page.dart';
+import 'package:alcool_app/thermometer_page/thermometer_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
