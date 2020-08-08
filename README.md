@@ -1,16 +1,13 @@
-# alcool_app
+# Alcoholometer
 
-A new Flutter project.
 
-## Getting Started
+<p align="center">
+  <img src="/assets/logo3.png" />
+</p>
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+Drinking can be fun. It can intensify one's good mood, help relax as well as be used to socialize. Excessive drinking, however, can have [negative effects](https://www.alcohol.org/effects/blood-alcohol-concentration/). Among other things, it can lead to memory loss, nausea & vomiting, loss of consciousness and, in some cases, death. To get the best out of drinking, it is key to drink in moderation. 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Alcoholometer is a mobile application that promotes responsible drinking. Users can log the drinks they consumed in the app, and their BAC (blood alcohol content) will be calculated from their height, weight and gender. The BAC will then be displayed on the *alcoholometer*. Users can click on the meter's scales to consult the side effects of each BAC level. This allows for a better gauging of one's alcohol situation and can help in deciding if they should have that extra drink.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+When the user is in the process of adding a drink, they can see the impact that extra drink would have on the *alcoholometer*. Furthermore, the time at which the user will reach 0.00 BAC is dislayed.
