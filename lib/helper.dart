@@ -92,7 +92,9 @@ class Helper {
     int hours = (bac / BAC_REDUCTION) as int;
     double bacLeft = bac % BAC_REDUCTION;
     int minutes = (bacLeft / (BAC_REDUCTION / 60)) as int;
-    return hours.toString() + ':' + minutes.toString();
+    var now = new DateTime.now();
+    now.add(new Duration(hours: hours, minutes: minutes));
+    return now.hour.toString() + ':' + now.minute.toString();
   }
 
   static String formatTimeOfDay(TimeOfDay tod) {
