@@ -104,7 +104,7 @@ class _ThermometerPageState extends State<ThermometerPage>
                           _buildBigThermometerPath(MediaQuery.of(context).size),
                     ),
                     LiquidCustomProgressIndicator(
-                      value: Helper.getPourcentage(user),
+                      value: Helper.percentageToDisplayOnThermometer(Helper.getPourcentage(user)),
                       valueColor: AlwaysStoppedAnimation(
                         Colors.pink,
                       ),
@@ -129,7 +129,7 @@ class _ThermometerPageState extends State<ThermometerPage>
                                 child: Text(
                                   Helper.getPourcentage(user).toString(),
                                   style: TextStyle(
-                                    fontSize: 70,
+                                    fontSize: 30,
                                     color: Colors.white,
                                   ),
                                 ),
