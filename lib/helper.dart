@@ -46,9 +46,9 @@ class Helper {
   }
 
   static double percentageToDisplayOnThermometer(double bac){
-    const OFFSET = 0.2;
+    const OFFSET = 0.29;
     const TOP_VALUE = 0.22;
-    return OFFSET + bac / TOP_VALUE;
+    return OFFSET + bac * (1 - OFFSET) / TOP_VALUE;
   }
 
   static String formatTimeOfDay(TimeOfDay tod) {
