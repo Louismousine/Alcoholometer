@@ -91,8 +91,10 @@ class Helper {
   static String timeUntilSober(double bac){
     int hours = bac / BAC_REDUCTION;
     double bacLeft = bac % BAC_REDUCTION;
-    int minutes - bacLeft / (BAC_REDUCTION / 60);
-    return hours.toString() + ':' + minutes.toString();
+    int minutes = bacLeft / (BAC_REDUCTION / 60);
+    var now = new DateTime.now();
+    now.add(new Duration(hours: hours, minutes: minutes));
+    return now.hour.toString() + ':' + now.minute.toString();
   }
   static String formatTimeOfDay(TimeOfDay tod) {
     final now = new DateTime.now();
