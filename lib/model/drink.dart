@@ -5,6 +5,7 @@ class Drink {
   double pourcentage;
   double volume;
   DateTime time;
+  boolean valid;
 
-  Drink({this.id, this.pourcentage, this.time, this.volume});
+  Drink({this.id, this.pourcentage, this.time, this.volume, this.valid});
 }
