@@ -34,8 +34,7 @@ class Helper {
       invalidatePastDrinks(user);
       return 0;
     }
-    var bacTruncated = ((bac * 100) % 100) / 100;
-    return bacTruncated;
+    return double.parse(bac.toStringAsFixed(3));
   }
 
   static void invalidatePastDrinks(User user) {
