@@ -2,6 +2,10 @@ import 'package:alcool_app/model/drink.dart';
 import 'package:flutter/material.dart';
 
 class NewDrinkModal extends StatefulWidget {
+  final Function previewNewDrink;
+
+  NewDrinkModal(this.previewNewDrink);
+
   @override
   _NewDrinkModalState createState() => _NewDrinkModalState();
 }
@@ -57,6 +61,14 @@ class _NewDrinkModalState extends State<NewDrinkModal> {
           pickedTime.minute,
         );
       });
+
+      try {
+        widget.previewNewDrink(
+          newVolume: double.parse(_volumeController.text),
+          newPourcentage: double.parse(_pourcentageController.text),
+          newTime: _selectedTime,
+        );
+      } catch (e) {}
     });
   }
 
@@ -89,6 +101,16 @@ class _NewDrinkModalState extends State<NewDrinkModal> {
                     cursorColor: Colors.pink,
                     expands: false,
                     controller: _volumeController,
+                    onChanged: (_) {
+                      try {
+                        widget.previewNewDrink(
+                          newVolume: double.parse(_volumeController.text),
+                          newPourcentage:
+                              double.parse(_pourcentageController.text),
+                          newTime: _selectedTime,
+                        );
+                      } catch (e) {}
+                    },
                   ),
                 ),
                 Container(
@@ -104,6 +126,16 @@ class _NewDrinkModalState extends State<NewDrinkModal> {
                     cursorColor: Colors.pink,
                     expands: false,
                     controller: _pourcentageController,
+                    onChanged: (_) {
+                      try {
+                        widget.previewNewDrink(
+                          newVolume: double.parse(_volumeController.text),
+                          newPourcentage:
+                              double.parse(_pourcentageController.text),
+                          newTime: _selectedTime,
+                        );
+                      } catch (e) {}
+                    },
                   ),
                 ),
               ],

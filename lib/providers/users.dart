@@ -102,6 +102,19 @@ class Users with ChangeNotifier {
     prefs.setString(id, json.encode(userData));
   }
 
+  void removeDrinkFromUser(String id, Drink drink) {
+    _users.firstWhere((user) => user.id == id).drinks.remove(drink);
+    notifyListeners();
+
+    final userData = json.decode(prefs.get(id)) as Map<String, dynamic>;
+
+    List<dynamic> drinks = userData['drinks'];
+    drinks.removeWhere((d) => d['id'] == drink.id);
+
+    userData['drinks'] = drinks;
+    prefs.setString(id, json.encode(userData));
+  }
+
   List<Drink> jsonToDrinks(List<dynamic> jsonDrinks) {
     List<Drink> drinks = [];
     jsonDrinks.forEach((drink) {

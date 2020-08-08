@@ -12,8 +12,6 @@ class LiquidCustomProgressIndicator extends ProgressIndicator {
   ///The path used to draw the shape of the progress indicator. The size of the progress indicator is controlled by the bounds of this path.
   final Path shapePath;
 
-  final bool isBlack;
-
   LiquidCustomProgressIndicator({
     Key key,
     double value = 0.5,
@@ -22,7 +20,6 @@ class LiquidCustomProgressIndicator extends ProgressIndicator {
     this.center,
     @required this.direction,
     @required this.shapePath,
-    @required this.isBlack,
   }) : super(
           key: key,
           value: value,
@@ -61,8 +58,8 @@ class _LiquidCustomProgressIndicatorState
                 top: pathBounds.top,
                 child: Wave(
                   value: widget.value,
-                  colors: widget.isBlack
-                      ? [Colors.black, Colors.black]
+                  colors: widget.valueColor != null
+                      ? [Colors.black12, Colors.black12]
                       : [
                           Colors.green,
                           Helper.hexColorForPercentage(widget.value)

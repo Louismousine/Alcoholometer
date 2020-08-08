@@ -1,12 +1,13 @@
 import 'package:alcool_app/helper.dart';
 import 'package:alcool_app/model/drink.dart';
 import 'package:alcool_app/model/user.dart';
-import 'package:alcool_app/new_drink_modal.dart';
+import 'package:alcool_app/thermometer_page/new_drink_modal.dart';
 import 'package:alcool_app/providers/users.dart';
 import 'package:alcool_app/thermometer_page/thermometer_scale.dart';
 import 'package:animated_background/animated_background.dart';
 import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'liquid_custom_progress_indicator.dart';
@@ -20,13 +21,42 @@ class ThermometerPage extends StatefulWidget {
 
 class _ThermometerPageState extends State<ThermometerPage>
     with TickerProviderStateMixin {
-  void _addNewDrink(BuildContext context) async {
+  double _previewPourcentage = 0;
+  BuildContext _context;
+
+  void _previewNewDrink(
+      {double newVolume, double newPourcentage, DateTime newTime}) {
+    final drink = Drink(
+      id: 'some id',
+      pourcentage: newPourcentage,
+      time: newTime,
+      valid: true,
+      volume: newVolume,
+    );
+
+    final user = (ModalRoute.of(_context).settings.arguments as User);
+    final copyUser = User(
+      id: user.id,
+      height: user.height,
+      name: user.name,
+      weight: user.weight,
+      isFemale: user.isFemale,
+      drinks: [...user.drinks],
+    );
+    copyUser.drinks.add(drink);
+    setState(() {
+      _previewPourcentage = Helper.percentageToDisplayOnThermometer(
+          Helper.getPourcentage(copyUser));
+    });
+  }
+
+  void _addNewDrink() async {
     final newDrink = await showModalBottomSheet(
-      context: context,
+      context: _context,
       builder: (_) {
         return GestureDetector(
           onTap: () {},
-          child: NewDrinkModal(),
+          child: NewDrinkModal(_previewNewDrink),
           behavior: HitTestBehavior.opaque,
         );
       },
@@ -38,11 +68,17 @@ class _ThermometerPageState extends State<ThermometerPage>
         newDrink,
       );
     }
+    setState(() {
+      _previewPourcentage = 0.0;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final user = ModalRoute.of(context).settings.arguments as User;
+    setState(() {
+      _context = context;
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -58,9 +94,58 @@ class _ThermometerPageState extends State<ThermometerPage>
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.history),
-            onPressed: () {
-              // Add history popup here
-            },
+            onPressed: user.drinks.length == 0
+                ? null
+                : () {
+                    return showDialog(
+                      context: context,
+                      builder: (_) {
+                        return AlertDialog(
+                          title: Text(
+                            'Drinks History',
+                            textAlign: TextAlign.center,
+                          ),
+                          content: Container(
+                            width: double.maxFinite,
+                            height: MediaQuery.of(context).size.height / 2,
+                            child: ListView.builder(
+                              itemBuilder: (ctx, index) {
+                                return Card(
+                                  elevation: 4,
+                                  child: ListTile(
+                                    title: Text(
+                                      user.drinks[index].volume.toString() +
+                                          ' mL at ' +
+                                          user.drinks[index].pourcentage
+                                              .toString() +
+                                          '%',
+                                    ),
+                                    subtitle: Text(
+                                        DateFormat('yyyy-MM-dd hh:mm:ss')
+                                            .format(user.drinks[index].time)),
+                                    trailing: IconButton(
+                                      color: Colors.pink,
+                                      icon: Icon(Icons.delete),
+                                      onPressed: () {
+                                        Provider.of<Users>(
+                                          context,
+                                          listen: false,
+                                        ).removeDrinkFromUser(
+                                          user.id,
+                                          user.drinks[index],
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
+                              itemCount: user.drinks.length,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
           )
         ],
       ),
@@ -81,7 +166,6 @@ class _ThermometerPageState extends State<ThermometerPage>
                       valueColor: AlwaysStoppedAnimation(
                         Colors.black,
                       ),
-                      isBlack: true,
                       backgroundColor: Colors.black,
                       direction: Axis.vertical,
                       shapePath:
@@ -90,10 +174,7 @@ class _ThermometerPageState extends State<ThermometerPage>
                     LiquidCustomProgressIndicator(
                       value: Helper.percentageToDisplayOnThermometer(
                           Helper.getPourcentage(user)),
-                      valueColor: AlwaysStoppedAnimation(
-                        Colors.pink,
-                      ),
-                      isBlack: false,
+                      valueColor: null,
                       backgroundColor: Colors.white,
                       direction: Axis.vertical,
                       center: Stack(
@@ -131,6 +212,16 @@ class _ThermometerPageState extends State<ThermometerPage>
                       shapePath: _buildSmallThermometerPath(
                           MediaQuery.of(context).size),
                     ),
+                    LiquidCustomProgressIndicator(
+                      value: _previewPourcentage,
+                      valueColor: AlwaysStoppedAnimation(
+                        Colors.pink,
+                      ),
+                      backgroundColor: Colors.transparent,
+                      direction: Axis.vertical,
+                      shapePath: _buildSmallThermometerPath(
+                          MediaQuery.of(context).size),
+                    ),
                   ],
                 ),
               ],
@@ -143,7 +234,7 @@ class _ThermometerPageState extends State<ThermometerPage>
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: Colors.pink,
-        onPressed: () => _addNewDrink(context),
+        onPressed: () => _addNewDrink(),
       ),
       resizeToAvoidBottomInset: false,
     );
