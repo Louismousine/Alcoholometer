@@ -46,7 +46,7 @@ class Helper {
   }
 
   static double percentageToDisplayOnThermometer(double bac) {
-    const OFFSET = 0.29;
+    const OFFSET = 0.30;
     const TOP_VALUE = 0.21;
     return OFFSET + bac * (1 - OFFSET) / TOP_VALUE;
   }
