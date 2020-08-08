@@ -104,7 +104,7 @@ class _WaveClipper extends CustomClipper<Path> {
   List<Offset> _generateVerticalWavePath(Size size) {
     final waveList = <Offset>[];
     for (int i = -2; i <= size.width.toInt() + 2; i++) {
-      final waveHeight = (size.height / 70);
+      final waveHeight = (size.height / 90);
       final dy = math.sin((animationValue * 360 - i) % 360 * (math.pi / 180)) *
               waveHeight +
           (size.height - (size.height * value));

@@ -51,10 +51,12 @@ class _ThermometerPageState extends State<ThermometerPage>
       },
     ) as Drink;
 
-    Provider.of<Users>(context, listen: false).addDrinkToUser(
-      (ModalRoute.of(context).settings.arguments as User).id,
-      newDrink,
-    );
+    if (newDrink != null) {
+      Provider.of<Users>(context, listen: false).addDrinkToUser(
+        (ModalRoute.of(context).settings.arguments as User).id,
+        newDrink,
+      );
+    }
   }
 
   @override
@@ -104,7 +106,8 @@ class _ThermometerPageState extends State<ThermometerPage>
                           _buildBigThermometerPath(MediaQuery.of(context).size),
                     ),
                     LiquidCustomProgressIndicator(
-                      value: Helper.getPourcentage(user),
+                      value: Helper.percentageToDisplayOnThermometer(
+                          Helper.getPourcentage(user)),
                       valueColor: AlwaysStoppedAnimation(
                         Colors.pink,
                       ),
@@ -129,7 +132,7 @@ class _ThermometerPageState extends State<ThermometerPage>
                                 child: Text(
                                   Helper.getPourcentage(user).toString(),
                                   style: TextStyle(
-                                    fontSize: 70,
+                                    fontSize: 50,
                                     color: Colors.white,
                                   ),
                                 ),
@@ -159,6 +162,7 @@ class _ThermometerPageState extends State<ThermometerPage>
         backgroundColor: Colors.pink,
         onPressed: () => _addNewDrink(context),
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 

@@ -15,30 +15,30 @@ class Helper {
   static const fifthScalePercentage = OFFSET + 0.15 * (1 - OFFSET) / TOP_VALUE;
 
   static double getPourcentage(User user) {
+    final double height = user.height / 100;
+    final double weight = user.weight * 0.453592;
+
     var totalAlcoholIngested = 0.0;
     final now = new DateTime.now();
     var firstTimeAtWhichDrinkWasTaken = now;
     user.drinks.forEach((drink) {
       if (drink.valid && drink.time.isBefore(now)) {
         totalAlcoholIngested +=
-            drink.pourcentage * drink.volume * ALCOHOL_DENSITY;
+            drink.pourcentage / 100 * drink.volume * ALCOHOL_DENSITY;
         firstTimeAtWhichDrinkWasTaken =
             drink.time.isBefore(firstTimeAtWhichDrinkWasTaken)
                 ? drink.time
                 : firstTimeAtWhichDrinkWasTaken;
       }
     });
-    var bloodVolume = user.isFemale
-        ? 0.3561 * user.height * user.height * user.height / 1000000 +
-            0.03308 * user.weight * 0.453592 +
-            0.1833
-        : 0.3669 * user.height * user.height * user.height / 1000000 +
-            0.03219 * 0.453592 * user.weight +
-            0.6041;
+    final bloodVolume = user.isFemale
+        ? 0.3561 * height * height * height + 0.03308 * weight + 0.1833
+        : 0.3669 * height * height * height + 0.03219 * weight + 0.6041;
     var timeDiff = now.difference(firstTimeAtWhichDrinkWasTaken);
     var alcoholRemovedByLiver = timeDiff.inHours * BAC_REDUCTION +
         timeDiff.inMinutes * BAC_REDUCTION / 60;
-    var bac = totalAlcoholIngested / (bloodVolume * 100) - alcoholRemovedByLiver;
+    var bac =
+        totalAlcoholIngested / (bloodVolume * 100) - alcoholRemovedByLiver;
     if (bac <= 0) {
       invalidatePastDrinks(user);
       return 0;
