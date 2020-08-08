@@ -89,11 +89,11 @@ class Helper {
   }
 
   static String timeUntilSober(double bac) {
-    int hours = (bac / BAC_REDUCTION) as int;
+    int hours = (bac / BAC_REDUCTION).round();
     double bacLeft = bac % BAC_REDUCTION;
-    int minutes = (bacLeft / (BAC_REDUCTION / 60)) as int;
+    int minutes = (bacLeft / (BAC_REDUCTION / 60)).round();
     var now = new DateTime.now();
-    now.add(new Duration(hours: hours, minutes: minutes));
+    now = now.add(new Duration(hours: hours, minutes: minutes));
     return now.hour.toString() + ':' + now.minute.toString();
   }
 

@@ -88,8 +88,15 @@ class _ThermometerPageState extends State<ThermometerPage>
           color: Colors.pink,
         ),
         title: Text(
-          user.name,
-          style: TextStyle(color: Colors.black),
+          user.name +
+              ' sober around ' +
+              Helper.timeUntilSober(
+                Helper.getPourcentage(user),
+              ),
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 18
+          ),
         ),
         actions: <Widget>[
           IconButton(
@@ -148,12 +155,12 @@ class _ThermometerPageState extends State<ThermometerPage>
                       },
                     );
                   },
-          )
+          ),
         ],
       ),
       body: Padding(
         padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height / 30,
+          top: MediaQuery.of(context).size.height / 20,
           bottom: MediaQuery.of(context).size.height / 15,
         ),
         child: Stack(
@@ -228,7 +235,7 @@ class _ThermometerPageState extends State<ThermometerPage>
                 ),
               ],
             ),
-            ThermometerScale()
+            ThermometerScale(),
           ],
         ),
       ),
