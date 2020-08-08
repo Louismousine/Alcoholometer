@@ -90,6 +90,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Alcoholometer',
         home: UsersPage(),
         routes: {
