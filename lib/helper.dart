@@ -87,6 +87,13 @@ class Helper {
     });
     return intake;
   }
+
+  static String timeUntilSober(double bac){
+    int hours = bac / BAC_REDUCTION;
+    double bacLeft = bac % BAC_REDUCTION;
+    int minutes - bacLeft / (BAC_REDUCTION / 60);
+    return hours.toString() + ':' + minutes.toString();
+  }
   static String formatTimeOfDay(TimeOfDay tod) {
     final now = new DateTime.now();
     final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
